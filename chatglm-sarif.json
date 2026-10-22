@@ -1,0 +1,227 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "LLMModelSecurityScanner",
+          "informationUri": "https://github.com/security/llm-model-security-scanner",
+          "semanticVersion": "1.0.0",
+          "rules": [
+            {
+              "id": "SEC-HUB-001",
+              "name": "Repository Only Distributes Unsafe Pickle Weights",
+              "shortDescription": {
+                "text": "Repository Only Distributes Unsafe Pickle Weights"
+              },
+              "fullDescription": {
+                "text": "This repository distributes model weights exclusively in legacy PyTorch pickle format (.bin/.pt) with no SafeTensors alternatives available. Pickle files expose users to RCE risks."
+              },
+              "help": {
+                "text": "Request the author to convert the weights to SafeTensors or use safetensors converter."
+              },
+              "properties": {
+                "category": "Deserialization Exploit",
+                "cwe": null,
+                "cve": null,
+                "owasp": null,
+                "mitre_atlas": null,
+                "nist_ai_rmf": null,
+                "eu_ai_act": null
+              }
+            },
+            {
+              "id": "SEC-RCE-MAP-001",
+              "name": "Remote Custom Code Registration (auto_map)",
+              "shortDescription": {
+                "text": "Remote Custom Code Registration (auto_map)"
+              },
+              "fullDescription": {
+                "text": "Model configuration defines 'auto_map': {\"AutoTokenizer\": [\"tokenization_chatglm.ChatGLMTokenizer\", null]}. Loading this model with 'trust_remote_code=True' will run custom Python scripts packaged in the repository."
+              },
+              "help": {
+                "text": "Audit the referenced Python files carefully before using trust_remote_code=True."
+              },
+              "properties": {
+                "category": "Remote Code Execution",
+                "cwe": "CWE-94",
+                "cve": null,
+                "owasp": "LLM03: Supply Chain Vulnerabilities",
+                "mitre_atlas": "AML.T0010: ML Supply Chain Compromise",
+                "nist_ai_rmf": "MANAGE-2.4 (Third-Party AI Vetting)",
+                "eu_ai_act": "Article 15 (Cybersecurity & Robustness), Article 53 (GPAI Documentation)"
+              }
+            },
+            {
+              "id": "SEC-OBF-001",
+              "name": "Obfuscated Payload Decoding via 'decompress'",
+              "shortDescription": {
+                "text": "Obfuscated Payload Decoding via 'decompress'"
+              },
+              "fullDescription": {
+                "text": "Model code decodes binary/obfuscated content using 'decompress'."
+              },
+              "help": {
+                "text": "Verify whether binary strings contain stealth executable payloads."
+              },
+              "properties": {
+                "category": "Remote Code Execution",
+                "cwe": "CWE-116",
+                "cve": null,
+                "owasp": null,
+                "mitre_atlas": null,
+                "nist_ai_rmf": null,
+                "eu_ai_act": null
+              }
+            },
+            {
+              "id": "SEC-PCK-003",
+              "name": "Incomplete or Malformed Pickle Bytecode",
+              "shortDescription": {
+                "text": "Incomplete or Malformed Pickle Bytecode"
+              },
+              "fullDescription": {
+                "text": "Pickle disassembler encountered unexpected byte sequence: at position 0, opcode b'{' unknown"
+              },
+              "help": {
+                "text": "Verify download completeness."
+              },
+              "properties": {
+                "category": "Format Integrity & Header Safety",
+                "cwe": null,
+                "cve": null,
+                "owasp": null,
+                "mitre_atlas": null,
+                "nist_ai_rmf": null,
+                "eu_ai_act": null
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "SEC-HUB-001",
+          "level": "error",
+          "message": {
+            "text": "Repository Only Distributes Unsafe Pickle Weights: This repository distributes model weights exclusively in legacy PyTorch pickle format (.bin/.pt) with no SafeTensors alternatives available. Pickle files expose users to RCE risks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "THUDM/chatglm-6b"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SEC-RCE-MAP-001",
+          "level": "error",
+          "message": {
+            "text": "Remote Custom Code Registration (auto_map): Model configuration defines 'auto_map': {\"AutoTokenizer\": [\"tokenization_chatglm.ChatGLMTokenizer\", null]}. Loading this model with 'trust_remote_code=True' will run custom Python scripts packaged in the repository."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tokenizer_config.json"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SEC-RCE-MAP-001",
+          "level": "error",
+          "message": {
+            "text": "Remote Custom Code Registration (auto_map): Model configuration defines 'auto_map': {\"AutoConfig\": \"configuration_chatglm.ChatGLMConfig\", \"AutoModel\": \"modeling_chatglm.ChatGLMForConditionalGeneration\", \"AutoModelForSeq2SeqLM\": \"modeling_chatglm.ChatGLMForConditionalGeneration\"}. Loading this model with 'trust_remote_code=True' will run custom Python scripts packaged in the repository."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "config.json"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SEC-OBF-001",
+          "level": "error",
+          "message": {
+            "text": "Obfuscated Payload Decoding via 'decompress': Model code decodes binary/obfuscated content using 'decompress'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "quantization.py"
+                },
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SEC-OBF-001",
+          "level": "error",
+          "message": {
+            "text": "Obfuscated Payload Decoding via 'b64decode': Model code decodes binary/obfuscated content using 'b64decode'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "quantization.py"
+                },
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SEC-PCK-003",
+          "level": "note",
+          "message": {
+            "text": "Incomplete or Malformed Pickle Bytecode: Pickle disassembler encountered unexpected byte sequence: at position 0, opcode b'{' unknown"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pytorch_model.bin.index.json"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

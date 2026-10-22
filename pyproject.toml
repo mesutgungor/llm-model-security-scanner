@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-model-security-scanner"
+version = "1.0.0"
+description = "Comprehensive enterprise security scanner & proof verification engine for open-source LLMs and Hugging Face repositories"
+readme = "README.md"
+authors = [{ name = "Mesut Güngör" }]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.9"
+dependencies = [
+    "torch>=2.0.0",
+    "safetensors>=0.4.0",
+    "huggingface_hub>=0.20.0",
+    "requests>=2.28.0",
+    "rich>=13.0.0",
+    "click>=8.0.0",
+]
+
+[project.scripts]
+llm-scan = "llm_security_scanner.cli:cli"
