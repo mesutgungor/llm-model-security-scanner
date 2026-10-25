@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "Comprehensive enterprise security scanner & proof verification engine for open-source LLMs and Hugging Face repositories"
 readme = "README.md"
 authors = [{ name = "Mesut Güngör" }]
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 requires-python = ">=3.9"
 dependencies = [
     "torch>=2.0.0",
@@ -21,3 +21,7 @@ dependencies = [
 
 [project.scripts]
 llm-scan = "llm_security_scanner.cli:cli"
+
+[tool.setuptools.packages.find]
+include = ["llm_security_scanner*"]
+
