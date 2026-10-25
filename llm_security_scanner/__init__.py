@@ -13,7 +13,7 @@ from llm_security_scanner.models import (
     Severity,
 )
 
-__version__ = "1.0.2"
+__version__ = "1.1.0"
 __all__ = [
     "ModelSecurityScanner",
     "ScannerConfig",

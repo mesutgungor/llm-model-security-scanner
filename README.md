@@ -3,7 +3,8 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-brightgreen.svg)](pyproject.toml)
 [![VS Code Extension](https://img.shields.io/badge/VS_Code_Extension-v1.0.0-007ACC?logo=visual-studio-code&logoColor=white)](https://github.com/mesutgungor/vscode-llm-model-security-scanner)
-[![Tests Passing](https://img.shields.io/badge/tests-35%2F35%20passing-success.svg)](tests/)
+[![MCP Server](https://img.shields.io/badge/MCP-Server%20Ready-00D26A?logo=anthropic)](#-model-context-protocol-mcp-server-for-coding-agents)
+[![Tests Passing](https://img.shields.io/badge/tests-38%2F38%20passing-success.svg)](tests/)
 [![Security Standards](https://img.shields.io/badge/Compliance-OWASP%20%7C%20MITRE%20ATLAS%20%7C%20NIST%20AI%20RMF%20%7C%20EU%20AI%20Act-purple.svg)](#-regulatory--security-framework-crosswalk)
 [![SARIF v2.1.0](https://img.shields.io/badge/SARIF-GitHub%20Security%20Tab-orange.svg)](#-cicd-github-actions-sarif-integration)
 
@@ -23,6 +24,7 @@
 - [Core Architecture & Zero-Execution Safety](#-core-architecture--zero-execution-safety)
 - [Key Features](#-key-features)
 - [💻 Visual Studio Code Extension](#-visual-studio-code-extension)
+- [🤖 Model Context Protocol (MCP) Server for Coding Agents](#-model-context-protocol-mcp-server-for-coding-agents)
 - [Installation & Quickstart](#-installation--quickstart)
 - [CLI Command Reference](#-cli-command-reference)
   - [1. Scan Local Models](#1-scan-local-models)
@@ -131,16 +133,63 @@ Prefer an in-editor IDE experience? Install the official **LLM Model Security Sc
 
 ---
 
+## 🤖 Model Context Protocol (MCP) Server for Coding Agents
+
+Autonomous coding agents (**Claude Code**, **Cursor Agent**, **Windsurf**, **Devin**) often write code and execute terminal commands on your behalf. If an agent recommends or imports an unvetted or typosquatted Hugging Face model, malicious code or pickle payloads execute on your machine automatically.
+
+The **LLM Security MCP Server** acts as an **autonomous pre-flight guardrail**, allowing coding agents to vet models before writing code or running inference:
+
+### Configure in Claude Desktop / Claude Code / Cursor:
+Add to your `claude_desktop_config.json` or Cursor MCP settings:
+
+```json
+{
+  "mcpServers": {
+    "llm-security": {
+      "command": "llm-scan",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+*(Or via Python directly: `{"command": "python3", "args": ["-m", "llm_security_scanner.mcp_server"]}`)*
+
+### Tools Exposed to Agents:
+| Tool Name | Parameters | Purpose |
+| :--- | :--- | :--- |
+| `scan_huggingface_model` | `repo_id`, `hf_token?` | Audits remote Hub manifests & templates weightless before the agent imports it. |
+| `audit_local_model` | `target_path`, `deep?` | Zero-execution scan on local files (`.safetensors`, `.gguf`, `.py`, `.bin`). |
+| `verify_model_proof` | `target`, `is_remote?` | Produces verifiable cryptographic Proof Dossiers with SHA-256 fingerprints. |
+| `explain_security_rule` | `rule_id` | Explains CVE, CWE, and OWASP/MITRE/EU AI Act compliance mappings for any rule. |
+
+### Autonomous Agent Gating Workflow:
+When a developer prompts: *"Build a sentiment app with a Hugging Face model"*:
+1. The agent queries `scan_huggingface_model("candidate-org/model")`.
+2. If `safe_to_load: false`, the agent rejects the candidate and automatically selects a verified secure model.
+3. If `safe_to_load: true`, the agent proceeds with generating the implementation.
+
+---
+
 ## 📦 Installation & Quickstart
 
 ### Prerequisites
 - Python $\ge$ 3.9
 - Operating System: macOS, Linux, or Windows (WSL)
 
-### Install via pip (Editable / Source)
+### Install from PyPI (Recommended)
 ```bash
-git clone https://github.com/mesutgungor/llm_model_security.git
-cd llm_model_security
+# Standard installation
+pip install llm-model-security-scanner
+
+# With MCP Server support for coding agents
+pip install "llm-model-security-scanner[mcp]"
+```
+
+### Install from Source
+```bash
+git clone https://github.com/mesutgungor/llm-model-security-scanner.git
+cd llm-model-security-scanner
 pip install -e .
 ```
 

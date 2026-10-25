@@ -339,5 +339,19 @@ def display_threat_model():
     )
 
 
+@cli.command("mcp")
+def mcp_command():
+    """Start the Model Context Protocol (MCP) server over stdio for AI coding agents (Claude Code, Cursor, Windsurf)."""
+    try:
+        from llm_security_scanner.mcp_server import main as mcp_main
+        mcp_main()
+    except ImportError:
+        console.print(
+            "[bold red]Error:[/bold red] The 'mcp' package is required to run the MCP server.\n"
+            "Install it via: [green]pip install mcp[/green]"
+        )
+        sys.exit(1)
+
+
 if __name__ == "__main__":
     cli()
