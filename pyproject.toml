@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-model-security-scanner"
-version = "1.0.1"
+version = "1.0.2"
 description = "Comprehensive enterprise security scanner & proof verification engine for open-source LLMs and Hugging Face repositories"
 readme = "README.md"
 authors = [{ name = "Mesut Güngör" }]
