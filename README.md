@@ -253,61 +253,61 @@ Security scanners frequently encounter pushback when alerting on model repositor
 
 | Rule ID | Severity | Category | Description | CWE / Reference |
 | :--- | :---: | :--- | :--- | :--- |
-| **`SEC-PCK-001`** | **CRITICAL** | Deserialization Exploit | Arbitrary Code Execution via dangerous pickle opcodes (`GLOBAL`, `REDUCE`, `BUILD`) | CWE-502 |
-| **`SEC-PCK-002`** | **HIGH** | Deserialization Exploit | Suspicious or unapproved global object in pickle stream (`os`, `subprocess`, `posix`) | CWE-502 |
-| **`SEC-PCK-003`** | **LOW** | Format Integrity | Incomplete or malformed pickle bytecode stream | CWE-20 |
-| **`SEC-PCK-INFO-001`** | **LOW** | Format Integrity | Legacy PyTorch pickle serialization format detected (migrate to SafeTensors) | CWE-502 |
-| **`SEC-ZIP-001`** | **CRITICAL** | Deserialization Exploit | ZipSlip path traversal in PyTorch archive (`../` file escape) | CWE-22 |
-| **`SEC-ZIP-002`** | **LOW** | Format Integrity | Corrupted PyTorch ZIP container structure | CWE-20 |
-| **`SEC-RCE-001`** | **HIGH** | Remote Code Execution | Suspicious module imports in architecture scripts (`subprocess`, `socket`, `urllib`) | CWE-94 |
-| **`SEC-RCE-002`** | **CRITICAL** | Remote Code Execution | Dynamic code execution via `eval()`, `exec()`, `__import__()` | CWE-95 |
-| **`SEC-RCE-003`** | **CRITICAL** | Remote Code Execution | OS command execution via `system()`, `popen()`, `spawn()` | CWE-78 |
-| **`SEC-RCE-MAP-001`** | **HIGH** | Remote Code Execution | Auto-map declaration in `config.json` requiring `trust_remote_code=True` | CWE-94 |
-| **`SEC-RCE-MAP-002`** | **MEDIUM** | Remote Code Execution | Custom modeling parameter or custom Triton/CUDA kernel declaration | CWE-94 |
-| **`SEC-OBF-001`** | **HIGH** | Remote Code Execution | Obfuscated payload decoding (`base64.b64decode`, `zlib.decompress`) | CWE-116 |
-| **`SEC-EXF-001`** | **MEDIUM** | Secret Leak | Environment variable access (`os.environ`) in model scripts | CWE-200 |
-| **`SEC-TMPL-SSTI-001`** | **CRITICAL** | Chat Template SSTI | Jinja2 reflection escape / Transformers SSTI vulnerability (**CVE-2024-34359**) | CWE-1336 / CVE-2024-34359 |
-| **`SEC-TMPL-SSTI-002`** | **CRITICAL** | Chat Template SSTI | Jinja2 sandbox escape / global breakout attempt (`lipsum.__globals__`, `cycler`) | CWE-1336 |
-| **`SEC-ST-001`** | **HIGH** | Format Integrity | Truncated SafeTensors file (< 8 bytes) | CWE-125 |
-| **`SEC-ST-002`** | **HIGH** | Format Integrity | Invalid zero or negative SafeTensors header size | CWE-125 |
-| **`SEC-ST-003`** | **CRITICAL** | Format Integrity | SafeTensors header allocation memory bomb (**CVE-2023-44469**) | CWE-400 / CVE-2023-44469 |
-| **`SEC-ST-004`** | **HIGH** | Format Integrity | Malformed SafeTensors JSON header | CWE-20 |
-| **`SEC-ST-006`** | **CRITICAL** | Format Integrity | SafeTensors out-of-bounds or inverted tensor offsets | CWE-125 |
-| **`SEC-ST-007`** | **CRITICAL** | Format Integrity | Tensor data offsets exceed physical file boundary | CWE-125 |
-| **`SEC-ST-META-001`** | **HIGH** | Suspicious Artifact | Suspicious executable pattern in SafeTensors `__metadata__` | CWE-94 |
-| **`SEC-GGUF-001`** | **HIGH** | Format Integrity | Truncated GGUF binary file | CWE-125 |
-| **`SEC-GGUF-002`** | **HIGH** | Format Integrity | Invalid GGUF magic header bytes | CWE-20 |
-| **`SEC-GGUF-004`** | **CRITICAL** | Format Integrity | Anomalous GGUF tensor count triggering C++ integer overflow | CWE-190 |
-| **`SEC-GGUF-005`** | **HIGH** | Format Integrity | Anomalous GGUF metadata key-value count (DoS) | CWE-400 |
-| **`SEC-ONNX-001`** | **CRITICAL** | Deserialization Exploit | ONNX external data path traversal (**CVE-2024-27318**) | CWE-22 / CVE-2024-27318 |
-| **`SEC-ONNX-002`** | **MEDIUM** | Remote Code Execution | ONNX custom domain operator declaration | CWE-94 |
-| **`SEC-TOK-001`** | **MEDIUM** | Special Tokens | Missing End-of-Sequence (`eos_token`) configuration causing unbounded generation DoS | CWE-400 |
-| **`SEC-TOK-002`** | **HIGH** | Special Tokens | Empty string EOS token configured | CWE-20 |
-| **`SEC-TOK-003`** | **HIGH** | Special Tokens | Token ID collision enabling role delimiter hijacking | CWE-20 |
-| **`SEC-TOK-004`** | **HIGH** | Special Tokens | Critical delimiter marked non-special (prompt boundary injection) | CWE-20 |
-| **`SEC-TOK-005`** | **LOW** | Special Tokens | BOS and EOS tokens are identical | CWE-20 |
-| **`SEC-TOK-006`** | **HIGH** | Unicode Smuggling | Unicode Bidirectional (Bidi) Trojan Override (**CVE-2021-42574**) | CWE-94 / CVE-2021-42574 |
-| **`SEC-TOK-007`** | **MEDIUM** | Unicode Smuggling | Zero-width invisible character smuggling in vocabulary | CWE-116 |
-| **`SEC-GEN-001`** | **HIGH** | Generation DoS | Extreme token generation limit in `max_new_tokens` (KV cache exhaustion) | CWE-400 |
-| **`SEC-GEN-002`** | **MEDIUM** | Generation DoS | Invalid sampling temperature (division by zero / inference crash) | CWE-20 |
-| **`SEC-GEN-003`** | **MEDIUM** | Generation DoS | Missing `eos_token_id` in generation manifest | CWE-400 |
-| **`SEC-PEFT-001`** | **HIGH** | Adapter Poisoning | Suspicious remote base model path in adapter manifest | CWE-494 |
-| **`SEC-PEFT-002`** | **HIGH** | Adapter Poisoning | LoRA scaling factor sabotage (alignment stripping / jailbreak) | CWE-693 |
-| **`SEC-PEFT-003`** | **MEDIUM** | Adapter Poisoning | LoRA adapter targets safety / classification layer | CWE-693 |
-| **`SEC-PEFT-004`** | **HIGH** | Adapter Poisoning | Unrecognized or custom PEFT method declaration | CWE-94 |
-| **`SEC-WGT-001`** | **HIGH** | Weight Poisoning | Suspicious tensor name matching trigger / backdoor keywords | CWE-506 |
-| **`SEC-WGT-002`** | **CRITICAL** | Weight Poisoning | Poisoned weights containing NaN or Infinity values (Inference DoS) | CWE-400 |
-| **`SEC-WGT-003`** | **HIGH** | Weight Poisoning | Sabotaged / all-zero layer weights | CWE-400 |
-| **`SEC-WGT-004`** | **MEDIUM** | Weight Poisoning | Extreme weight magnitude outlier spike (Trojan gate trigger) | CWE-506 |
-| **`SEC-WGT-005`** | **CRITICAL** | Weight Poisoning | Stealth out-of-bounds layer injected (hidden Trojan layer) | CWE-506 |
-| **`SEC-ART-001`** | **HIGH** | Suspicious Artifact | Standalone executable script or native binary in model directory | CWE-507 |
-| **`SEC-ART-002`** | **CRITICAL** | Suspicious Artifact | Disguised Linux ELF, Windows PE, or macOS Mach-O binary disguised as `.bin` | CWE-507 |
-| **`SEC-ART-003`** | **MEDIUM** | Suspicious Artifact | Abnormally high Shannon entropy in plaintext file | CWE-507 |
-| **`SEC-SYM-001`** | **CRITICAL** | Suspicious Artifact | Malicious symlink traversal pointing outside model repository | CWE-59 |
-| **`SEC-SEC-001`** | **CRITICAL** | Secret Leak | Exposed Hugging Face token, OpenAI API key, AWS secret key, or private SSH key | CWE-798 |
-| **`SEC-HUB-001`** | **HIGH** | Supply Chain | Repository only distributes unsafe pickle weights without SafeTensors | CWE-502 |
-| **`SEC-HUB-002`** | **HIGH** | Supply Chain | Standalone executable script file in Hub repository | CWE-507 |
-| **`SEC-HUB-TYPO-001`**| **HIGH** | Supply Chain | Author typosquatting popular publishers on Hugging Face | Supply Chain |
+| <a id="sec-pck-001"></a>**`SEC-PCK-001`** | **CRITICAL** | Deserialization Exploit | Arbitrary Code Execution via dangerous pickle opcodes (`GLOBAL`, `REDUCE`, `BUILD`) | CWE-502 |
+| <a id="sec-pck-002"></a>**`SEC-PCK-002`** | **HIGH** | Deserialization Exploit | Suspicious or unapproved global object in pickle stream (`os`, `subprocess`, `posix`) | CWE-502 |
+| <a id="sec-pck-003"></a>**`SEC-PCK-003`** | **LOW** | Format Integrity | Incomplete or malformed pickle bytecode stream | CWE-20 |
+| <a id="sec-pck-info-001"></a>**`SEC-PCK-INFO-001`** | **LOW** | Format Integrity | Legacy PyTorch pickle serialization format detected (migrate to SafeTensors) | CWE-502 |
+| <a id="sec-zip-001"></a>**`SEC-ZIP-001`** | **CRITICAL** | Deserialization Exploit | ZipSlip path traversal in PyTorch archive (`../` file escape) | CWE-22 |
+| <a id="sec-zip-002"></a>**`SEC-ZIP-002`** | **LOW** | Format Integrity | Corrupted PyTorch ZIP container structure | CWE-20 |
+| <a id="sec-rce-001"></a>**`SEC-RCE-001`** | **HIGH** | Remote Code Execution | Suspicious module imports in architecture scripts (`subprocess`, `socket`, `urllib`) | CWE-94 |
+| <a id="sec-rce-002"></a>**`SEC-RCE-002`** | **CRITICAL** | Remote Code Execution | Dynamic code execution via `eval()`, `exec()`, `__import__()` | CWE-95 |
+| <a id="sec-rce-003"></a>**`SEC-RCE-003`** | **CRITICAL** | Remote Code Execution | OS command execution via `system()`, `popen()`, `spawn()` | CWE-78 |
+| <a id="sec-rce-map-001"></a>**`SEC-RCE-MAP-001`** | **HIGH** | Remote Code Execution | Auto-map declaration in `config.json` requiring `trust_remote_code=True` | CWE-94 |
+| <a id="sec-rce-map-002"></a>**`SEC-RCE-MAP-002`** | **MEDIUM** | Remote Code Execution | Custom modeling parameter or custom Triton/CUDA kernel declaration | CWE-94 |
+| <a id="sec-obf-001"></a>**`SEC-OBF-001`** | **HIGH** | Remote Code Execution | Obfuscated payload decoding (`base64.b64decode`, `zlib.decompress`) | CWE-116 |
+| <a id="sec-exf-001"></a>**`SEC-EXF-001`** | **MEDIUM** | Secret Leak | Environment variable access (`os.environ`) in model scripts | CWE-200 |
+| <a id="sec-tmpl-ssti-001"></a>**`SEC-TMPL-SSTI-001`** | **CRITICAL** | Chat Template SSTI | Jinja2 reflection escape / Transformers SSTI vulnerability (**CVE-2024-34359**) | CWE-1336 / CVE-2024-34359 |
+| <a id="sec-tmpl-ssti-002"></a>**`SEC-TMPL-SSTI-002`** | **CRITICAL** | Chat Template SSTI | Jinja2 sandbox escape / global breakout attempt (`lipsum.__globals__`, `cycler`) | CWE-1336 |
+| <a id="sec-st-001"></a>**`SEC-ST-001`** | **HIGH** | Format Integrity | Truncated SafeTensors file (< 8 bytes) | CWE-125 |
+| <a id="sec-st-002"></a>**`SEC-ST-002`** | **HIGH** | Format Integrity | Invalid zero or negative SafeTensors header size | CWE-125 |
+| <a id="sec-st-003"></a>**`SEC-ST-003`** | **CRITICAL** | Format Integrity | SafeTensors header allocation memory bomb (**CVE-2023-44469**) | CWE-400 / CVE-2023-44469 |
+| <a id="sec-st-004"></a>**`SEC-ST-004`** | **HIGH** | Format Integrity | Malformed SafeTensors JSON header | CWE-20 |
+| <a id="sec-st-006"></a>**`SEC-ST-006`** | **CRITICAL** | Format Integrity | SafeTensors out-of-bounds or inverted tensor offsets | CWE-125 |
+| <a id="sec-st-007"></a>**`SEC-ST-007`** | **CRITICAL** | Format Integrity | Tensor data offsets exceed physical file boundary | CWE-125 |
+| <a id="sec-st-meta-001"></a>**`SEC-ST-META-001`** | **HIGH** | Suspicious Artifact | Suspicious executable pattern in SafeTensors `__metadata__` | CWE-94 |
+| <a id="sec-gguf-001"></a>**`SEC-GGUF-001`** | **HIGH** | Format Integrity | Truncated GGUF binary file | CWE-125 |
+| <a id="sec-gguf-002"></a>**`SEC-GGUF-002`** | **HIGH** | Format Integrity | Invalid GGUF magic header bytes | CWE-20 |
+| <a id="sec-gguf-004"></a>**`SEC-GGUF-004`** | **CRITICAL** | Format Integrity | Anomalous GGUF tensor count triggering C++ integer overflow | CWE-190 |
+| <a id="sec-gguf-005"></a>**`SEC-GGUF-005`** | **HIGH** | Format Integrity | Anomalous GGUF metadata key-value count (DoS) | CWE-400 |
+| <a id="sec-onnx-001"></a>**`SEC-ONNX-001`** | **CRITICAL** | Deserialization Exploit | ONNX external data path traversal (**CVE-2024-27318**) | CWE-22 / CVE-2024-27318 |
+| <a id="sec-onnx-002"></a>**`SEC-ONNX-002`** | **MEDIUM** | Remote Code Execution | ONNX custom domain operator declaration | CWE-94 |
+| <a id="sec-tok-001"></a>**`SEC-TOK-001`** | **MEDIUM** | Special Tokens | Missing End-of-Sequence (`eos_token`) configuration causing unbounded generation DoS | CWE-400 |
+| <a id="sec-tok-002"></a>**`SEC-TOK-002`** | **HIGH** | Special Tokens | Empty string EOS token configured | CWE-20 |
+| <a id="sec-tok-003"></a>**`SEC-TOK-003`** | **HIGH** | Special Tokens | Token ID collision enabling role delimiter hijacking | CWE-20 |
+| <a id="sec-tok-004"></a>**`SEC-TOK-004`** | **HIGH** | Special Tokens | Critical delimiter marked non-special (prompt boundary injection) | CWE-20 |
+| <a id="sec-tok-005"></a>**`SEC-TOK-005`** | **LOW** | Special Tokens | BOS and EOS tokens are identical | CWE-20 |
+| <a id="sec-tok-006"></a>**`SEC-TOK-006`** | **HIGH** | Unicode Smuggling | Unicode Bidirectional (Bidi) Trojan Override (**CVE-2021-42574**) | CWE-94 / CVE-2021-42574 |
+| <a id="sec-tok-007"></a>**`SEC-TOK-007`** | **MEDIUM** | Unicode Smuggling | Zero-width invisible character smuggling in vocabulary | CWE-116 |
+| <a id="sec-gen-001"></a>**`SEC-GEN-001`** | **HIGH** | Generation DoS | Extreme token generation limit in `max_new_tokens` (KV cache exhaustion) | CWE-400 |
+| <a id="sec-gen-002"></a>**`SEC-GEN-002`** | **MEDIUM** | Generation DoS | Invalid sampling temperature (division by zero / inference crash) | CWE-20 |
+| <a id="sec-gen-003"></a>**`SEC-GEN-003`** | **MEDIUM** | Generation DoS | Missing `eos_token_id` in generation manifest | CWE-400 |
+| <a id="sec-peft-001"></a>**`SEC-PEFT-001`** | **HIGH** | Adapter Poisoning | Suspicious remote base model path in adapter manifest | CWE-494 |
+| <a id="sec-peft-002"></a>**`SEC-PEFT-002`** | **HIGH** | Adapter Poisoning | LoRA scaling factor sabotage (alignment stripping / jailbreak) | CWE-693 |
+| <a id="sec-peft-003"></a>**`SEC-PEFT-003`** | **MEDIUM** | Adapter Poisoning | LoRA adapter targets safety / classification layer | CWE-693 |
+| <a id="sec-peft-004"></a>**`SEC-PEFT-004`** | **HIGH** | Adapter Poisoning | Unrecognized or custom PEFT method declaration | CWE-94 |
+| <a id="sec-wgt-001"></a>**`SEC-WGT-001`** | **HIGH** | Weight Poisoning | Suspicious tensor name matching trigger / backdoor keywords | CWE-506 |
+| <a id="sec-wgt-002"></a>**`SEC-WGT-002`** | **CRITICAL** | Weight Poisoning | Poisoned weights containing NaN or Infinity values (Inference DoS) | CWE-400 |
+| <a id="sec-wgt-003"></a>**`SEC-WGT-003`** | **HIGH** | Weight Poisoning | Sabotaged / all-zero layer weights | CWE-400 |
+| <a id="sec-wgt-004"></a>**`SEC-WGT-004`** | **MEDIUM** | Weight Poisoning | Extreme weight magnitude outlier spike (Trojan gate trigger) | CWE-506 |
+| <a id="sec-wgt-005"></a>**`SEC-WGT-005`** | **CRITICAL** | Weight Poisoning | Stealth out-of-bounds layer injected (hidden Trojan layer) | CWE-506 |
+| <a id="sec-art-001"></a>**`SEC-ART-001`** | **HIGH** | Suspicious Artifact | Standalone executable script or native binary in model directory | CWE-507 |
+| <a id="sec-art-002"></a>**`SEC-ART-002`** | **CRITICAL** | Suspicious Artifact | Disguised Linux ELF, Windows PE, or macOS Mach-O binary disguised as `.bin` | CWE-507 |
+| <a id="sec-art-003"></a>**`SEC-ART-003`** | **MEDIUM** | Suspicious Artifact | Abnormally high Shannon entropy in plaintext file | CWE-507 |
+| <a id="sec-sym-001"></a>**`SEC-SYM-001`** | **CRITICAL** | Suspicious Artifact | Malicious symlink traversal pointing outside model repository | CWE-59 |
+| <a id="sec-sec-001"></a>**`SEC-SEC-001`** | **CRITICAL** | Secret Leak | Exposed Hugging Face token, OpenAI API key, AWS secret key, or private SSH key | CWE-798 |
+| <a id="sec-hub-001"></a>**`SEC-HUB-001`** | **HIGH** | Supply Chain | Repository only distributes unsafe pickle weights without SafeTensors | CWE-502 |
+| <a id="sec-hub-002"></a>**`SEC-HUB-002`** | **HIGH** | Supply Chain | Standalone executable script file in Hub repository | CWE-507 |
+| <a id="sec-hub-typo-001"></a>**`SEC-HUB-TYPO-001`** | **HIGH** | Supply Chain | Author typosquatting popular publishers on Hugging Face | Supply Chain |
 
 ---
 
@@ -317,26 +317,26 @@ Every rule in `llm-scan` is systematically mapped to the four principal AI safet
 
 | Scanner Rule | Threat Description | OWASP Top 10 for LLMs (2025) | MITRE ATLAS | NIST AI RMF (100-1) | EU AI Act (2024/1689) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`SEC-PCK-001`** | Deserialization RCE | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 / Art. 55 (Systemic)** |
-| **`SEC-ZIP-001`** | ZipSlip Path Traversal | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-RCE-001`** | Dangerous Module Imports | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-RCE-002`** | Dynamic Eval/Exec | **LLM03: Supply Chain** | **AML.T0048: Code Execution** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-RCE-003`** | OS Command Execution | **LLM03: Supply Chain** | **AML.T0048: Code Execution** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-RCE-MAP`** | `auto_map` Remote Code | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 53 (GPAI Docs)** |
-| **`SEC-TMPL-SSTI`**| Jinja2 SSTI (CVE-2024-34359)| **LLM03 / LLM01** | **AML.T0048: Code Execution** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-ST-003`** | SafeTensors Memory Bomb | **LLM10: Unbounded Consumption** | **AML.T0029: Denial of Service**| **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
-| **`SEC-ONNX-001`** | ONNX Path Traversal | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-WGT-002`** | Poisoned NaN/Inf Weights | **LLM04: Model Poisoning** | **AML.T0029: Denial of Service**| **MEASURE-2.6 (Testing)** | **Art. 15 / Art. 55 (Systemic)** |
-| **`SEC-WGT-003`** | Sabotaged / Zero Weights | **LLM04: Model Poisoning** | **AML.T0018: Backdoor ML** | **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
-| **`SEC-WGT-005`** | Stealth Injected Layer | **LLM04: Model Poisoning** | **AML.T0018: Backdoor ML** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-TOK-003`** | Token ID Delimiter Hijack | **LLM01: Prompt Injection** | **AML.T0051: LLM Injection** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-TOK-004`** | Delimiter Marked Non-Special| **LLM01: Prompt Injection** | **AML.T0051: LLM Injection** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-TOK-006`** | Unicode Bidi Trojan Source | **LLM01: Prompt Injection** | **AML.T0051: LLM Injection** | **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
-| **`SEC-GEN-001`** | Extreme Generation KV DoS | **LLM10: Unbounded Consumption** | **AML.T0029: Denial of Service**| **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
-| **`SEC-PEFT-001`** | Suspicious LoRA Base Model | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-PEFT-002`** | LoRA Scaling Sabotage | **LLM04: Model Poisoning** | **AML.T0018: Backdoor ML** | **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
-| **`SEC-ART-002`** | Disguised ELF/PE Binaries | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
-| **`SEC-SEC-001`** | Leaked Secrets / API Keys | **LLM02: Sensitive Data Leak** | **AML.T0040: ML IP Theft** | **GOVERN-1.2 & MANAGE** | **Art. 15 & Art. 53 (Protection)** |
+| <a id="sec-pck-001"></a>**`SEC-PCK-001`** | Deserialization RCE | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 / Art. 55 (Systemic)** |
+| <a id="sec-zip-001"></a>**`SEC-ZIP-001`** | ZipSlip Path Traversal | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-rce-001"></a>**`SEC-RCE-001`** | Dangerous Module Imports | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-rce-002"></a>**`SEC-RCE-002`** | Dynamic Eval/Exec | **LLM03: Supply Chain** | **AML.T0048: Code Execution** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-rce-003"></a>**`SEC-RCE-003`** | OS Command Execution | **LLM03: Supply Chain** | **AML.T0048: Code Execution** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-rce-map"></a>**`SEC-RCE-MAP`** | `auto_map` Remote Code | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 53 (GPAI Docs)** |
+| <a id="sec-tmpl-ssti"></a>**`SEC-TMPL-SSTI`** | Jinja2 SSTI (CVE-2024-34359)| **LLM03 / LLM01** | **AML.T0048: Code Execution** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-st-003"></a>**`SEC-ST-003`** | SafeTensors Memory Bomb | **LLM10: Unbounded Consumption** | **AML.T0029: Denial of Service**| **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
+| <a id="sec-onnx-001"></a>**`SEC-ONNX-001`** | ONNX Path Traversal | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-wgt-002"></a>**`SEC-WGT-002`** | Poisoned NaN/Inf Weights | **LLM04: Model Poisoning** | **AML.T0029: Denial of Service**| **MEASURE-2.6 (Testing)** | **Art. 15 / Art. 55 (Systemic)** |
+| <a id="sec-wgt-003"></a>**`SEC-WGT-003`** | Sabotaged / Zero Weights | **LLM04: Model Poisoning** | **AML.T0018: Backdoor ML** | **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
+| <a id="sec-wgt-005"></a>**`SEC-WGT-005`** | Stealth Injected Layer | **LLM04: Model Poisoning** | **AML.T0018: Backdoor ML** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-tok-003"></a>**`SEC-TOK-003`** | Token ID Delimiter Hijack | **LLM01: Prompt Injection** | **AML.T0051: LLM Injection** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-tok-004"></a>**`SEC-TOK-004`** | Delimiter Marked Non-Special| **LLM01: Prompt Injection** | **AML.T0051: LLM Injection** | **MEASURE-2.6 (Testing)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-tok-006"></a>**`SEC-TOK-006`** | Unicode Bidi Trojan Source | **LLM01: Prompt Injection** | **AML.T0051: LLM Injection** | **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
+| <a id="sec-gen-001"></a>**`SEC-GEN-001`** | Extreme Generation KV DoS | **LLM10: Unbounded Consumption** | **AML.T0029: Denial of Service**| **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
+| <a id="sec-peft-001"></a>**`SEC-PEFT-001`** | Suspicious LoRA Base Model | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-peft-002"></a>**`SEC-PEFT-002`** | LoRA Scaling Sabotage | **LLM04: Model Poisoning** | **AML.T0018: Backdoor ML** | **MEASURE-2.6 (Testing)** | **Art. 15 (Robustness)** |
+| <a id="sec-art-002"></a>**`SEC-ART-002`** | Disguised ELF/PE Binaries | **LLM03: Supply Chain** | **AML.T0010: Supply Chain** | **MANAGE-2.4 (Vetting)** | **Art. 15 (Cybersecurity)** |
+| <a id="sec-sec-001"></a>**`SEC-SEC-001`** | Leaked Secrets / API Keys | **LLM02: Sensitive Data Leak** | **AML.T0040: ML IP Theft** | **GOVERN-1.2 & MANAGE** | **Art. 15 & Art. 53 (Protection)** |
 
 ---
 
