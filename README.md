@@ -10,7 +10,7 @@
 > **Enterprise-grade, zero-execution static analysis scanner & cryptographic Proof-of-Finding verification engine for open-source Large Language Models (LLMs) distributed across Hugging Face, ModelScope, and local storage.**
 
 <p align="center">
-  <img src="assets/demo.gif" alt="llm-scan CLI in action" width="850">
+  <img src="https://raw.githubusercontent.com/mesutgungor/llm-model-security-scanner/main/assets/demo.gif" alt="llm-scan CLI in action" width="850">
 </p>
 
 `llm-scan` inspects model serialization formats, weights, configuration manifests, tokenizer dictionaries, chat templates, and custom architecture scripts **before** they are loaded into runtime environments like PyTorch, Hugging Face Transformers, vLLM, Ollama, or llama.cpp.
