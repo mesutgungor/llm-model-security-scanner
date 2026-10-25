@@ -2,6 +2,7 @@
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-brightgreen.svg)](pyproject.toml)
+[![VS Code Extension](https://img.shields.io/badge/VS_Code_Extension-v1.0.0-007ACC?logo=visual-studio-code&logoColor=white)](https://github.com/mesutgungor/vscode-llm-model-security-scanner)
 [![Tests Passing](https://img.shields.io/badge/tests-35%2F35%20passing-success.svg)](tests/)
 [![Security Standards](https://img.shields.io/badge/Compliance-OWASP%20%7C%20MITRE%20ATLAS%20%7C%20NIST%20AI%20RMF%20%7C%20EU%20AI%20Act-purple.svg)](#-regulatory--security-framework-crosswalk)
 [![SARIF v2.1.0](https://img.shields.io/badge/SARIF-GitHub%20Security%20Tab-orange.svg)](#-cicd-github-actions-sarif-integration)
@@ -21,6 +22,7 @@
 - [Why LLM Model Security?](#-why-llm-model-security)
 - [Core Architecture & Zero-Execution Safety](#-core-architecture--zero-execution-safety)
 - [Key Features](#-key-features)
+- [💻 Visual Studio Code Extension](#-visual-studio-code-extension)
 - [Installation & Quickstart](#-installation--quickstart)
 - [CLI Command Reference](#-cli-command-reference)
   - [1. Scan Local Models](#1-scan-local-models)
@@ -108,6 +110,24 @@ Traditional scanners often import models into Python, which can accidentally tri
 - **Remote Hugging Face Hub Auditing:** Scan public or private repositories directly using the Hugging Face API without downloading 10GB–100GB weights.
 - **Native CI/CD Integration:** Produces standard **SARIF v2.1.0** reports directly compatible with GitHub Code Scanning & Advanced Security.
 - **Wide Format Support:** SafeTensors, PyTorch `.bin`/`.pt`, GGUF, GGML, ONNX, PEFT/LoRA adapters, Hugging Face Tokenizers, and Chat Templates.
+
+---
+
+## 💻 Visual Studio Code Extension
+
+Prefer an in-editor IDE experience? Install the official **LLM Model Security Scanner for Visual Studio Code**:
+
+👉 **[vscode-llm-model-security-scanner](https://github.com/mesutgungor/vscode-llm-model-security-scanner)**
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mesutgungor/vscode-llm-model-security-scanner/main/media/preview.png" alt="LLM Model Security Scanner VS Code Extension" width="850">
+</p>
+
+- **🔴 Real-Time As-You-Write Linter:** Flags insecure calls (`os.system`, `eval()`, `zlib.decompress`, credential leaks) as you write Python code and manifests with red & yellow squiggly underlines.
+- **🛡️ Remote Import Guardian:** As soon as you write `AutoModelForCausalLM.from_pretrained("org/model")`, `pipeline(..., model="org/model")`, or `SentenceTransformer(...)`, the extension automatically audits the Hugging Face repository over the API weightless.
+- **🔍 Inline CodeLens Badges:** Displays instant status above model loading lines (`$(pass) Clean (0/100)` or `$(alert) [HIGH_RISK] [View Proof]`).
+- **💡 1-Click Quick Fixes (`⌘.`):** Explain vulnerabilities, open documentation anchors, or generate Proof Dossiers.
+- **🔬 Interactive Proof Webview:** View cryptographic Proof-of-Finding certificates and AST traces directly inside a native VS Code tab.
 
 ---
 
